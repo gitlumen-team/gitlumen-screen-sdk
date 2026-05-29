@@ -1,0 +1,25 @@
+{
+  "name": "gitlumen-screen-sdk",
+  "version": "0.1.0",
+  "description": "JavaScript SDK for GitLumen repository and pull request screening.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "keywords": [
+    "gitlumen",
+    "github",
+    "screening",
+    "sdk",
+    "risk-analysis"
+  ],
+  "author": "GitLumen",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "example": "node ./examples/basic-usage.js"
+  }
+}
