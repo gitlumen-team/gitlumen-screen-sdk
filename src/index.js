@@ -2,6 +2,7 @@ import { GitLumenService } from './services/gitlumen.js';
 import { GitHubClient } from './services/github.js';
 import { ReportStore } from './services/reportStore.js';
 import { formatReportOutput, reportCompact } from './formatters.js';
+import { createAnalysisProvider, SurplusProvider } from './providers/index.js';
 
 export class GitLumenScreenSDK {
   constructor(options = {}) {
@@ -21,11 +22,29 @@ export class GitLumenScreenSDK {
       }
     };
 
+    const providerOptions = {
+      aiProvider: options.aiProvider,
+      providerErrorMode: options.providerErrorMode,
+      surplusApiKey: options.surplusApiKey,
+      surplusBaseUrl: options.surplusBaseUrl,
+      surplusChatCompletionsPath: options.surplusChatCompletionsPath,
+      surplusModel: options.surplusModel,
+      surplusTemperature: options.surplusTemperature,
+      surplusMaxTokens: options.surplusMaxTokens,
+      surplusTimeoutMs: options.surplusTimeoutMs,
+      surplusMaxInputChars: options.surplusMaxInputChars,
+      surplusMaxFileChars: options.surplusMaxFileChars,
+      surplusHeaders: options.surplusHeaders,
+      fetchImpl: options.fetchImpl
+    };
+
     this.service = options.service || new GitLumenService({
       githubClient: options.githubClient,
       store: options.store,
       githubOptions,
-      storeOptions
+      storeOptions,
+      providerOptions,
+      analysisProvider: options.analysisProvider
     });
   }
 
@@ -57,6 +76,8 @@ export {
   GitLumenService,
   GitHubClient,
   ReportStore,
+  SurplusProvider,
+  createAnalysisProvider,
   reportCompact,
   formatReportOutput
 };
