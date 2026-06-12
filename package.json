@@ -20,6 +20,15 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "example": "node ./examples/basic-usage.js"
+    "example": "node ./examples/basic-usage.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/tests/**/*.test.js"]
+  },
+  "devDependencies": {
+    "jest": "^30.4.2"
   }
 }
