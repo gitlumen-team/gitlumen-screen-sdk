@@ -22,6 +22,10 @@ describe('createConfig', () => {
     expect(config.githubApiBase).toBe('https://api.github.com');
     expect(config.rawBase).toBe('https://raw.githubusercontent.com');
     expect(config.userAgent).toBe('gitlumen-screen-sdk/0.1.0');
+    expect(config.aiProvider).toBe('heuristic');
+    expect(config.veniceBaseUrl).toBe('https://api.venice.ai/api/v1');
+    expect(config.veniceChatCompletionsPath).toBe('/chat/completions');
+    expect(config.veniceModel).toBe('zai-org-glm-5');
     expect(config.dataDir).toMatch(/gitlumen-screen-sdk/);
   });
 
@@ -31,13 +35,21 @@ describe('createConfig', () => {
       maxFileBytes: 50000,
       githubApiBase: 'https://ghproxy.example.com',
       rawBase: 'https://raw.example.com',
-      userAgent: 'my-agent/1.0'
+      userAgent: 'my-agent/1.0',
+      aiProvider: 'venice',
+      veniceApiKey: 'venice-key',
+      veniceBaseUrl: 'https://venice.example.com/v1',
+      veniceModel: 'venice/test'
     });
     expect(config.githubToken).toBe('test-token');
     expect(config.maxFileBytes).toBe(50000);
     expect(config.githubApiBase).toBe('https://ghproxy.example.com');
     expect(config.rawBase).toBe('https://raw.example.com');
     expect(config.userAgent).toBe('my-agent/1.0');
+    expect(config.aiProvider).toBe('venice');
+    expect(config.veniceApiKey).toBe('venice-key');
+    expect(config.veniceBaseUrl).toBe('https://venice.example.com/v1');
+    expect(config.veniceModel).toBe('venice/test');
   });
 
   test('GITHUB_TOKEN env var is used when no override is given', () => {
@@ -50,6 +62,22 @@ describe('createConfig', () => {
     process.env.GITLUMEN_MAX_FILE_BYTES = '200000';
     const config = createConfig();
     expect(config.maxFileBytes).toBe(200000);
+  });
+
+
+  test('Venice env vars are used when no overrides are given', () => {
+    process.env.GITLUMEN_AI_PROVIDER = 'venice';
+    process.env.VENICE_API_KEY = 'env-venice-key';
+    process.env.VENICE_BASE_URL = 'https://venice.env/v1';
+    process.env.VENICE_MODEL = 'venice/env-model';
+    process.env.VENICE_MAX_TOKENS = '900';
+
+    const config = createConfig();
+    expect(config.aiProvider).toBe('venice');
+    expect(config.veniceApiKey).toBe('env-venice-key');
+    expect(config.veniceBaseUrl).toBe('https://venice.env/v1');
+    expect(config.veniceModel).toBe('venice/env-model');
+    expect(config.veniceMaxTokens).toBe(900);
   });
 
   test('explicit override takes precedence over env var', () => {

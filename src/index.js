@@ -2,7 +2,7 @@ import { GitLumenService } from './services/gitlumen.js';
 import { GitHubClient } from './services/github.js';
 import { ReportStore } from './services/reportStore.js';
 import { formatReportOutput, reportCompact } from './formatters.js';
-import { createAnalysisProvider, SurplusProvider } from './providers/index.js';
+import { createAnalysisProvider, SurplusProvider, VeniceProvider } from './providers/index.js';
 
 export class GitLumenScreenSDK {
   constructor(options = {}) {
@@ -35,6 +35,16 @@ export class GitLumenScreenSDK {
       surplusMaxInputChars: options.surplusMaxInputChars,
       surplusMaxFileChars: options.surplusMaxFileChars,
       surplusHeaders: options.surplusHeaders,
+      veniceApiKey: options.veniceApiKey,
+      veniceBaseUrl: options.veniceBaseUrl,
+      veniceChatCompletionsPath: options.veniceChatCompletionsPath,
+      veniceModel: options.veniceModel,
+      veniceTemperature: options.veniceTemperature,
+      veniceMaxTokens: options.veniceMaxTokens,
+      veniceTimeoutMs: options.veniceTimeoutMs,
+      veniceMaxInputChars: options.veniceMaxInputChars,
+      veniceMaxFileChars: options.veniceMaxFileChars,
+      veniceHeaders: options.veniceHeaders,
       fetchImpl: options.fetchImpl
     };
 
@@ -77,6 +87,7 @@ export {
   GitHubClient,
   ReportStore,
   SurplusProvider,
+  VeniceProvider,
   createAnalysisProvider,
   reportCompact,
   formatReportOutput

@@ -1,6 +1,6 @@
 # gitlumen-screen-sdk
 
-JavaScript SDK for screening public GitHub repositories and pull requests with GitLumen heuristic analysis, with optional Surplus Intelligence provider-assisted review insights.
+JavaScript SDK for screening public GitHub repositories and pull requests with GitLumen heuristic analysis, with optional Surplus Intelligence and Venice AI provider-assisted review insights.
 
 ## Install
 
@@ -88,6 +88,56 @@ Provider output is stored under `report.providerInsights`. The SDK does not let 
 
 Sensitive-looking tokens, private keys, bearer values, JWTs, and env secret assignments are redacted before snippets are sent to the provider.
 
+## Venice AI Provider
+
+The SDK can also use Venice AI as an optional provider-assisted review layer. Enable `aiProvider: 'venice'` and pass a Venice API key/model through options or environment variables.
+
+```bash
+export VENICE_API_KEY=your_venice_api_key
+export VENICE_MODEL=zai-org-glm-5
+# optional
+export VENICE_BASE_URL=https://api.venice.ai/api/v1
+```
+
+```js
+import { GitLumenScreenSDK } from 'gitlumen-screen-sdk';
+
+const sdk = new GitLumenScreenSDK({
+  githubToken: process.env.GITHUB_TOKEN,
+  aiProvider: 'venice',
+  veniceApiKey: process.env.VENICE_API_KEY,
+  veniceModel: process.env.VENICE_MODEL || 'zai-org-glm-5'
+});
+
+const report = await sdk.screenRepository(
+  {
+    repoUrl: 'https://github.com/owner/repo',
+    scope: 'standard'
+  },
+  'json'
+);
+
+console.log(report.providerInsights);
+```
+
+Provider output follows the same safety boundary as Surplus: it is stored under `report.providerInsights` and does not directly overwrite heuristic risk scores.
+
+### Venice options
+
+- `aiProvider`: use `'venice'` to enable Venice AI provider-assisted insights. Default is `'heuristic'`.
+- `veniceApiKey`: defaults to `VENICE_API_KEY`.
+- `veniceBaseUrl`: defaults to `VENICE_BASE_URL` or `https://api.venice.ai/api/v1`.
+- `veniceChatCompletionsPath`: defaults to `/chat/completions`.
+- `veniceModel`: defaults to `VENICE_MODEL` or `zai-org-glm-5`.
+- `veniceTemperature`: defaults to `0.2`.
+- `veniceMaxTokens`: defaults to `1800`.
+- `veniceTimeoutMs`: defaults to `45000`.
+- `veniceMaxInputChars`: defaults to `60000`.
+- `veniceMaxFileChars`: defaults to `6000`.
+- `veniceHeaders`: optional extra headers.
+
+See [docs/VENICE.md](docs/VENICE.md) for the full Venice provider guide.
+
 ## API
 
 ### new GitLumenScreenSDK(options)
@@ -99,9 +149,10 @@ Options:
 - githubApiBase: override GitHub API base URL
 - rawBase: override raw content base URL
 - userAgent: custom user agent string
-- aiProvider: optional provider name, currently `surplus` or `heuristic`
+- aiProvider: optional provider name, currently `surplus`, `venice`, or `heuristic`
 - providerErrorMode: `attach` or `throw` for provider failures
 - surplusApiKey, surplusBaseUrl, surplusModel, surplusHeaders: Surplus provider configuration
+- veniceApiKey, veniceBaseUrl, veniceModel, veniceHeaders: Venice provider configuration
 
 ### screenRepository(input, output)
 
@@ -135,6 +186,7 @@ The package also exports:
 - GitHubClient
 - ReportStore
 - SurplusProvider
+- VeniceProvider
 - createAnalysisProvider
 - reportCompact
 - formatReportOutput
@@ -144,6 +196,7 @@ The package also exports:
 ```bash
 npm run example
 node ./examples/surplus-provider.js
+node ./examples/venice-provider.js
 ```
 
 ## Tests
