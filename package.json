@@ -1,9 +1,17 @@
 {
   "name": "gitlumen-screen-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JavaScript SDK for GitLumen repository and pull request screening.",
   "type": "module",
   "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitlumen-team/gitlumen-screen-sdk.git"
+  },
+  "homepage": "https://github.com/gitlumen-team/gitlumen-screen-sdk",
+  "bugs": {
+    "url": "https://github.com/gitlumen-team/gitlumen-screen-sdk/issues"
+  },
   "exports": {
     ".": "./src/index.js"
   },
