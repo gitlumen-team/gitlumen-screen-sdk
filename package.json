@@ -1,6 +1,6 @@
 {
   "name": "gitlumen-screen-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "JavaScript SDK for GitLumen repository and pull request screening.",
   "type": "module",
   "main": "./src/index.js",
