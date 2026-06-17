@@ -1,5 +1,3 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
 import os from 'node:os';
 import path from 'node:path';
 import { GitLumenService } from '../src/services/gitlumen.js';
@@ -59,9 +57,9 @@ test('GitLumenService augments heuristic report with analysis provider insights'
 
   const report = await service.screenRepository({ repoUrl: 'https://github.com/gitlumen-team/demo', scope: 'quick' });
 
-  assert.equal(report.providerInsights.provider, 'surplus');
-  assert.ok(report.decisionQuestions.includes('What is the rollout plan?'));
-  assert.ok(report.recommendations.includes('Document rollout ownership.'));
-  assert.match(report.markdown, /Provider Intelligence/);
-  assert.match(report.markdown, /Mock Chapter/);
+  expect(report.providerInsights.provider).toBe('surplus');
+  expect(report.decisionQuestions).toContain('What is the rollout plan?');
+  expect(report.recommendations).toContain('Document rollout ownership.');
+  expect(report.markdown).toMatch(/Provider Intelligence/);
+  expect(report.markdown).toMatch(/Mock Chapter/);
 });

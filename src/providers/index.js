@@ -1,4 +1,5 @@
 import { SurplusProvider } from './surplus.js';
+import { VeniceProvider } from './venice.js';
 
 export function createAnalysisProvider(options = {}) {
   const provider = options.aiProvider || options.provider || 'heuristic';
@@ -6,7 +7,10 @@ export function createAnalysisProvider(options = {}) {
   if (provider === 'surplus') {
     return new SurplusProvider(options.surplusOptions || options);
   }
+  if (provider === 'venice') {
+    return new VeniceProvider(options.veniceOptions || options);
+  }
   throw new Error(`Unsupported aiProvider: ${provider}`);
 }
 
-export { SurplusProvider };
+export { SurplusProvider, VeniceProvider };

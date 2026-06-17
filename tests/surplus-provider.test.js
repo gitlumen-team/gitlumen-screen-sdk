@@ -1,5 +1,3 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
 import { SurplusProvider } from '../src/providers/surplus.js';
 import { redactSensitiveText } from '../src/utils/redaction.js';
 
@@ -34,9 +32,9 @@ function sampleReport() {
 
 test('redactSensitiveText removes common secret values', () => {
   const result = redactSensitiveText('API_KEY="abcdefghijklmnopqrstuvwxyz"\nAuthorization: Bearer abcdefghijklmnopqrstuvwxyz123456');
-  assert.match(result.text, /\[REDACTED/);
-  assert.ok(result.redactionCount >= 1);
-  assert.doesNotMatch(result.text, /abcdefghijklmnopqrstuvwxyz123456/);
+  expect(result.text).toMatch(/\[REDACTED/);
+  expect(result.redactionCount).toBeGreaterThanOrEqual(1);
+  expect(result.text).not.toMatch(/abcdefghijklmnopqrstuvwxyz123456/);
 });
 
 test('SurplusProvider calls OpenAI-compatible chat completions endpoint and normalizes JSON output', async () => {
@@ -87,11 +85,11 @@ test('SurplusProvider calls OpenAI-compatible chat completions endpoint and norm
   const body = JSON.parse(captured.request.body);
   const userPayload = JSON.parse(body.messages[1].content);
 
-  assert.equal(captured.url, 'https://surplus.local/v1/chat/completions');
-  assert.equal(captured.request.headers.Authorization, 'Bearer inf_test_key');
-  assert.equal(body.model, 'router/test-model');
-  assert.equal(insights.provider, 'surplus');
-  assert.equal(insights.summary, 'Provider found one review concern.');
-  assert.equal(insights.riskAdjustments[0].title, 'Validate auth path');
-  assert.match(userPayload.sanitizedSnapshot.files[0].content, /\[REDACTED/);
+  expect(captured.url).toBe('https://surplus.local/v1/chat/completions');
+  expect(captured.request.headers.Authorization).toBe('Bearer inf_test_key');
+  expect(body.model).toBe('router/test-model');
+  expect(insights.provider).toBe('surplus');
+  expect(insights.summary).toBe('Provider found one review concern.');
+  expect(insights.riskAdjustments[0].title).toBe('Validate auth path');
+  expect(userPayload.sanitizedSnapshot.files[0].content).toMatch(/\[REDACTED/);
 });

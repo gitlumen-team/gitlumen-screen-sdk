@@ -18,7 +18,16 @@ export function createConfig(overrides = {}) {
     surplusMaxTokens: overrides.surplusMaxTokens ?? Number.parseInt(process.env.SURPLUS_MAX_TOKENS || '1800', 10),
     surplusTimeoutMs: overrides.surplusTimeoutMs ?? Number.parseInt(process.env.SURPLUS_TIMEOUT_MS || '45000', 10),
     surplusMaxInputChars: overrides.surplusMaxInputChars ?? Number.parseInt(process.env.SURPLUS_MAX_INPUT_CHARS || '60000', 10),
-    surplusMaxFileChars: overrides.surplusMaxFileChars ?? Number.parseInt(process.env.SURPLUS_MAX_FILE_CHARS || '6000', 10)
+    surplusMaxFileChars: overrides.surplusMaxFileChars ?? Number.parseInt(process.env.SURPLUS_MAX_FILE_CHARS || '6000', 10),
+    veniceApiKey: overrides.veniceApiKey ?? process.env.VENICE_API_KEY ?? '',
+    veniceBaseUrl: overrides.veniceBaseUrl ?? process.env.VENICE_BASE_URL ?? 'https://api.venice.ai/api/v1',
+    veniceChatCompletionsPath: overrides.veniceChatCompletionsPath ?? process.env.VENICE_CHAT_COMPLETIONS_PATH ?? '/chat/completions',
+    veniceModel: overrides.veniceModel ?? process.env.VENICE_MODEL ?? 'zai-org-glm-5',
+    veniceTemperature: overrides.veniceTemperature ?? Number.parseFloat(process.env.VENICE_TEMPERATURE || '0.2'),
+    veniceMaxTokens: overrides.veniceMaxTokens ?? Number.parseInt(process.env.VENICE_MAX_TOKENS || '1800', 10),
+    veniceTimeoutMs: overrides.veniceTimeoutMs ?? Number.parseInt(process.env.VENICE_TIMEOUT_MS || '45000', 10),
+    veniceMaxInputChars: overrides.veniceMaxInputChars ?? Number.parseInt(process.env.VENICE_MAX_INPUT_CHARS || '60000', 10),
+    veniceMaxFileChars: overrides.veniceMaxFileChars ?? Number.parseInt(process.env.VENICE_MAX_FILE_CHARS || '6000', 10)
   };
 }
 
